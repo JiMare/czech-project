@@ -1,24 +1,10 @@
-const { TouchBarScrubber } = require("electron");
+import { NewsArticle } from './components/news-article/news-article.js';
 
 const header = document.querySelector('div.header-news__container');
 
 const carouselItemCount = 2;
 let carouselItemStart = 0;
 let articles;
-
-function createDivForNews(newsValue){
-
-    const newsArticle = document.createElement('div');
-    newsArticle.classList.add('news-article');
-    newsArticle.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.7), transparent) ,url(${newsValue.image})`;
-
-    const title = document.createElement('span');
-    title.classList.add('news-article__title');
-    title.innerText = newsValue.title;
-
-    newsArticle.appendChild(title);
-    return newsArticle;
-}
 
 fetch('http://localhost:3000/news.json')
     .then(serverResponse => serverResponse.text())
@@ -32,7 +18,8 @@ function populateNewsCarousel(news, startAt){
     header.innerText = '';
     for(let i = startAt; i < startAt + carouselItemCount; i++){
         const newsValue = news[i];
-        header.appendChild(createDivForNews(newsValue));
+        const newsArticle = new NewsArticle();
+        header.appendChild(newsArticle.createDivForNews(newsValue));
     }
     checkButtonsVisibilty();
 }   
@@ -54,31 +41,6 @@ buttonRight.addEventListener('click', () => {
     carouselItemStart ++;
     populateNewsCarousel(articles, carouselItemStart);
 });
-
-
-const automobil = {
-  pocetMistKSezeni: 5,
-  barva: 'cervena'
-}
-
-console.log(automobil.barva);
-/*
-class Ptak {
-
-    constructor(zvuk){
-       this.zvuk = zvuk;
-    }
-    vydejZvuk(){
-        console.log(this.zvuk);
-    }
-}
-
-const kacer = new Ptak('kvakva');
-kacer.vydejZvuk();*/
-
-
-
-
 
 
 // 1.domácí úkol
