@@ -1,9 +1,10 @@
 import { NewsArticle } from './components/news-article/news-article.js';
+import { Carousel } from './components/carousel/carousel.js';
 
-const header = document.querySelector('div.header-news__container');
 
-const carouselItemCount = 2;
-let carouselItemStart = 0;
+const carousel = new Carousel(2, 0, document.querySelector('div.header-news__container'),document.querySelector('#carousel-button-right'),
+document.querySelector('#carousel-button-left'));
+
 let articles;
 
 fetch('http://localhost:3000/news.json')
@@ -11,35 +12,18 @@ fetch('http://localhost:3000/news.json')
     .then(responseText => { 
         const data = JSON.parse(responseText);
         articles = data.articles;
-        populateNewsCarousel(data.articles, carouselItemStart);
+        carousel.populateNewsCarousel(data.articles);
     });
 
-function populateNewsCarousel(news, startAt){
-    header.innerText = '';
-    for(let i = startAt; i < startAt + carouselItemCount; i++){
-        const newsValue = news[i];
-        const newsArticle = new NewsArticle();
-        header.appendChild(newsArticle.createDivForNews(newsValue));
-    }
-    checkButtonsVisibilty();
-}   
 
-//2.domácí úkol
-function checkButtonsVisibilty(){
-    buttonRight.hidden = carouselItemStart >= (articles.length - carouselItemCount);
-    buttonLeft.hidden = carouselItemStart == 0;
-}
-
-const buttonLeft = document.querySelector('#carousel-button-left');
-const buttonRight = document.querySelector('#carousel-button-right');
-
-buttonLeft.addEventListener('click', () => {
-    carouselItemStart --;
-    populateNewsCarousel(articles, carouselItemStart);
+carousel.buttonLeft.addEventListener('click', () => {
+    carousel.carouselItemStart --;
+    carousel.populateNewsCarousel(articles);
 });
-buttonRight.addEventListener('click', () => {
-    carouselItemStart ++;
-    populateNewsCarousel(articles, carouselItemStart);
+
+carousel.buttonRight.addEventListener('click', () => {
+    carousel.carouselItemStart ++;
+    carousel.populateNewsCarousel(articles);
 });
 
 
