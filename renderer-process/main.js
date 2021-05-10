@@ -13,18 +13,8 @@ fetch('http://localhost:3000/news.json')
         const data = JSON.parse(responseText);
         articles = data.articles;
         carousel.populateNewsCarousel(data.articles);
+        carousel.browseTheCarousel(data.articles);
     });
-
-
-carousel.buttonLeft.addEventListener('click', () => {
-    carousel.carouselItemStart --;
-    carousel.populateNewsCarousel(articles);
-});
-
-carousel.buttonRight.addEventListener('click', () => {
-    carousel.carouselItemStart ++;
-    carousel.populateNewsCarousel(articles);
-});
 
 
 // 1.domácí úkol
