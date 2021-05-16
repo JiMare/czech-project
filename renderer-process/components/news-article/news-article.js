@@ -1,16 +1,17 @@
-export class NewsArticle {
+export class NewsArticle extends HTMLElement{
 
-    createDivForNews(newsValue){
-        const newsArticle = document.createElement('div');
-        newsArticle.classList.add('news-article');
-        newsArticle.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.7), transparent) ,url(${newsValue.image})`;
-    
+    constructor(newsValue){
+        super();
+        this.classList.add('news-article');
+        this.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.7), transparent) ,url(${newsValue.image})`;
+
         const title = document.createElement('span');
         title.classList.add('news-article__title');
         title.innerText = newsValue.title;
-    
-        newsArticle.appendChild(title);
-        return newsArticle;
+
+        this.appendChild(title);
     }
+    
 }
 
+customElements.define('app-news-article', NewsArticle);

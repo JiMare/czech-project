@@ -1,21 +1,33 @@
 import { NewsArticle } from '../news-article/news-article.js';
 
-export class Carousel {
+export class Carousel extends HTMLElement{
 
-    constructor(carouselItemCount, carouselItemStart, header, buttonRight, buttonLeft){
-       this.carouselItemCount = carouselItemCount;
-       this.carouselItemStart = carouselItemStart;
-       this.header = header;
-       this.buttonRight = buttonRight;
-       this.buttonLeft = buttonLeft;
+    constructor(){
+       super(); 
+       this.carouselItemCount = 2;
+       this.carouselItemStart = 0;
+       this.innerHTML = `<header class="header-news"> 
+        <div class="header-news__container"> 
+        </div>
+        <button id="carousel-button-left">
+            <i class="fas fa-chevron-left"></i>
+            </button>
+        <button id="carousel-button-right" class="last">
+            <i class="fas fa-chevron-right"></i>
+            </button>
+            </header>`
+       ;
+       this.header = document.querySelector('div.header-news__container');
+       this.buttonRight = document.querySelector('#carousel-button-right');
+       this.buttonLeft = document.querySelector('#carousel-button-left');
     }
 
     populateNewsCarousel(news){
         this.header.innerText = '';
         for(let i = this.carouselItemStart; i < this.carouselItemStart + this.carouselItemCount; i++){
             const newsValue = news[i];
-            const newsArticle = new NewsArticle();
-            this.header.appendChild(newsArticle.createDivForNews(newsValue));
+            const newsArticle = new NewsArticle(newsValue);
+            this.header.appendChild(newsArticle);
         }
         this.checkButtonsVisibilty(news.length);
     }   
@@ -38,3 +50,5 @@ export class Carousel {
     }
     
 }
+
+customElements.define('app-carousel', Carousel);
