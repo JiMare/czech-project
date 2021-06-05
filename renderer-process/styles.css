@@ -103,9 +103,19 @@ section.modal-container {
 }
 
 app-time {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #F7F7F7;
-  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 4rem;
+  width: 60%;
+  height: 30%;
+  position: fixed;
+  top: 20%;
+  left: 20%;
+  padding: 3rem;
+  box-shadow: 0.5rem 0.5rem 1rem rgba(35, 35, 35, 0.3);
 }
 
 /*# sourceMappingURL=styles.css.map */
