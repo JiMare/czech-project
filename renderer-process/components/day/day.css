@@ -1,5 +1,15 @@
 app-day {
-  background-color: #0F4F59;
+  background-color: #82A383;
+  color: #F7F7F7;
+  border-radius: 1rem;
+  font-size: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1/1;
+}
+app-day:hover {
+  box-shadow: 0 5px 10px rgba(35, 35, 35, 0.2);
 }
 
 /*# sourceMappingURL=day.css.map */

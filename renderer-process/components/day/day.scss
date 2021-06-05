@@ -1,6 +1,15 @@
 @import 'colors';
 
-
 app-day{
-    background-color: $dark-blue;
+    background-color: $light-green;
+    color: $white;
+    border-radius: 1rem;
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1;
+    &:hover{
+        box-shadow: 0 5px 10px transparentize($black, 0.8);
+    }
 }

@@ -22,14 +22,14 @@ export class Carousel extends HTMLElement{
        this.buttonLeft = document.querySelector('#carousel-button-left');
     }
 
-    populateNewsCarousel(news){
+    populateNewsCarousel(){
         this.header.innerText = '';
         for(let i = this.carouselItemStart; i < this.carouselItemStart + this.carouselItemCount; i++){
-            const newsValue = news[i];
+            const newsValue = this.news[i];
             const newsArticle = new NewsArticle(newsValue);
             this.header.appendChild(newsArticle);
         }
-        this.checkButtonsVisibilty(news.length);
+        this.checkButtonsVisibilty(this.news.length);
     }   
 
     checkButtonsVisibilty(length){
@@ -37,18 +37,23 @@ export class Carousel extends HTMLElement{
         this.buttonLeft.hidden = this.carouselItemStart == 0;
     }
 
-    browseTheCarousel(articles){
+    browseTheCarousel(){
         this.buttonLeft.addEventListener('click', () => {
             this.carouselItemStart --;
-            this.populateNewsCarousel(articles);
+            this.populateNewsCarousel();
         });
         
         this.buttonRight.addEventListener('click', () => {
             this.carouselItemStart ++;
-            this.populateNewsCarousel(articles);
+            this.populateNewsCarousel();
         });
     }
     
+    myNews(news){
+        this.news = news;
+        this.browseTheCarousel();
+        this.populateNewsCarousel();
+    }
 }
 
 customElements.define('app-carousel', Carousel);
