@@ -164,21 +164,14 @@ window.showModal = showDayModal;
 
 let password = '';
 
-document.addEventListener('keydown', (keyboardEvent) => {
-    password += keyboardEvent.key;
-    console.log(password);
-   if(password.indexOf('time') != -1){
-       password = '';
-       const appTime = document.querySelector('app-time');
-                                appTime.showTime();
-                                setTimeout(
-                                    () => {
-                                      appTime.hideTime();
-                                    },
-                                    5000,
-                                );
-   }
-  
+document.addEventListener('keydown', (keyboardEvent) => {   
+        password += keyboardEvent.key;
+        if(password.indexOf('time') != -1){
+            password = '';
+            const appTime = document.querySelector('app-time');
+                                     appTime.getTime();
+                                     appTime.showTime();                        
+        }    
 });
 
     

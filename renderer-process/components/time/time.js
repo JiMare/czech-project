@@ -2,10 +2,10 @@ export class Time extends HTMLElement {
 
      constructor(){
         super();
-        this.getTime();
+       // this.getTime();
      }
 
-     getTime(){
+    getTime(){
         return setInterval(
             () => {
               this.innerText = new Date().toLocaleTimeString();
@@ -15,7 +15,13 @@ export class Time extends HTMLElement {
     }
 
     showTime(){
-       this.classList.remove('hidden');  
+       this.classList.remove('hidden'); 
+       setTimeout(
+        () => {
+          this.hideTime();
+        },
+        5000,
+    ); 
     }
     
     hideTime(){
