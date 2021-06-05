@@ -14,6 +14,14 @@ export class Time extends HTMLElement {
         );
     }
 
+    showTime(){
+       this.classList.remove('hidden');  
+    }
+    
+    hideTime(){
+        this.classList.add('hidden');  
+    }
+
 }
 
 customElements.define('app-time', Time);

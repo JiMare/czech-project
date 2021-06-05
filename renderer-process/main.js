@@ -162,37 +162,28 @@ function showDayModal() {
 
 window.showModal = showDayModal;
 
-function showTime(){
-    const appTime = document.querySelector('app-time');
-    appTime.classList.remove('hidden');  
-}
-
-function hideTime(){
-    const appTime = document.querySelector('app-time');
-    appTime.classList.add('hidden');  
-}
 
 document.addEventListener('keydown', (keyboardEvent) => {
-    let password = '';
+   let password = '';
     if(keyboardEvent.key === 't'){
         password = 't';
-        console.log(password);
         document.addEventListener('keydown', (keyboardEvent) => {
             if(keyboardEvent.key === 'i'){
-                password = 'ti';
-                console.log(password);
+             password = 'ti';
+              console.log(password);
                 document.addEventListener('keydown', (keyboardEvent) => {
                     if(keyboardEvent.key === 'm'){
-                        password = 'tim';
-                        console.log(password);
+                       password = 'tim';
+                       console.log(password);
                         document.addEventListener('keydown', (keyboardEvent) => {
                             if(keyboardEvent.key === 'e'){
-                                password = 'time';
-                                console.log(password);
-                                showTime();
+                            password = 'time';
+                              console.log(password);
+                                const appTime = document.querySelector('app-time');
+                                appTime.showTime();
                                 setTimeout(
                                     () => {
-                                      hideTime();
+                                      appTime.hideTime();
                                     },
                                     5000,
                                 );
