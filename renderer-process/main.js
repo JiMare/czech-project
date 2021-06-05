@@ -169,7 +169,6 @@ document.addEventListener('keydown', (keyboardEvent) => {
         if(password.indexOf('time') != -1){
             password = '';
             const appTime = document.querySelector('app-time');
-                                     appTime.getTime();
                                      appTime.showTime();                        
         }    
 });
