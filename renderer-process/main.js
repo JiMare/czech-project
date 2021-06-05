@@ -167,6 +167,11 @@ function showTime(){
     appTime.classList.remove('hidden');  
 }
 
+function hideTime(){
+    const appTime = document.querySelector('app-time');
+    appTime.classList.add('hidden');  
+}
+
 document.addEventListener('keydown', (keyboardEvent) => {
     let password = '';
     if(keyboardEvent.key === 't'){
@@ -185,6 +190,12 @@ document.addEventListener('keydown', (keyboardEvent) => {
                                 password = 'time';
                                 console.log(password);
                                 showTime();
+                                setTimeout(
+                                    () => {
+                                      hideTime();
+                                    },
+                                    5000,
+                                );
                             }
                         })
                     }
