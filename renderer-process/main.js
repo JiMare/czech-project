@@ -162,24 +162,14 @@ function showDayModal() {
 
 window.showModal = showDayModal;
 
+let password = '';
 
 document.addEventListener('keydown', (keyboardEvent) => {
-   let password = '';
-    if(keyboardEvent.key === 't'){
-        password = 't';
-        document.addEventListener('keydown', (keyboardEvent) => {
-            if(keyboardEvent.key === 'i'){
-             password = 'ti';
-              console.log(password);
-                document.addEventListener('keydown', (keyboardEvent) => {
-                    if(keyboardEvent.key === 'm'){
-                       password = 'tim';
-                       console.log(password);
-                        document.addEventListener('keydown', (keyboardEvent) => {
-                            if(keyboardEvent.key === 'e'){
-                            password = 'time';
-                              console.log(password);
-                                const appTime = document.querySelector('app-time');
+    password += keyboardEvent.key;
+    console.log(password);
+   if(password.indexOf('time') != -1){
+       password = '';
+       const appTime = document.querySelector('app-time');
                                 appTime.showTime();
                                 setTimeout(
                                     () => {
@@ -187,18 +177,9 @@ document.addEventListener('keydown', (keyboardEvent) => {
                                     },
                                     5000,
                                 );
-                            }
-                        })
-                    }
-                })
-            }
-        })
-    }
+   }
+  
 });
-
-
-
-
 
     
     
