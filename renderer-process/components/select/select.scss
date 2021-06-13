@@ -1,0 +1,10 @@
+@import 'colors';
+
+.selects{
+    padding: 1rem;
+    background: linear-gradient(191deg, $light-green 31%, rgba(98,113,158,1) 81%);
+}
+
+app-select{
+    padding: 1rem;
+}

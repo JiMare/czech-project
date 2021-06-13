@@ -1,0 +1,10 @@
+.selects {
+  padding: 1rem;
+  background: linear-gradient(191deg, #82A383 31%, #62719e 81%);
+}
+
+app-select {
+  padding: 1rem;
+}
+
+/*# sourceMappingURL=select.css.map */
