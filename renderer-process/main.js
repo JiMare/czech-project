@@ -84,7 +84,7 @@ function drawCalendar(){
     for(let i = 1; i <= maxDate; i++){
         const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
         const day = new Day(dayDate);
-        if(day.innerText == new Date().getDate()){
+        if(day.innerText == new Date().getDate() && currentMonth == new Date().getMonth() && currentYear == new Date().getFullYear()){
         day.classList.add('today');
         }
         section.appendChild(day);
