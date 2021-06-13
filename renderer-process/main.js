@@ -80,7 +80,9 @@ const maxDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 
 for(let i = 1; i <= maxDate; i++){
     const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
     const day = new Day(dayDate);
-    //console.log(day.getDate());
+    if(day.innerText == new Date().getDate()){
+      day.classList.add('today');
+    }
     section.appendChild(day);
 }
 
