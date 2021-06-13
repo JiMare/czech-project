@@ -32,6 +32,7 @@ export class Day extends HTMLElement{
     handleClickEvent(){
         window.showModal();
     }
+
 }
 
 customElements.define('app-day', Day);

@@ -31,7 +31,6 @@ export class Time extends HTMLElement {
         this.innerText = '';
         this.classList.add('hidden');   
     }
-
 }
 
 customElements.define('app-time', Time);

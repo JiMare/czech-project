@@ -2,7 +2,9 @@ import { NewsArticle } from './components/news-article/news-article.js';
 import { Carousel } from './components/carousel/carousel.js';
 import { Day } from './components/day/day.js';
 import { Time } from './components/time/time.js';
+import { Select } from './components/select/select.js';
 
+let contactsCache; 
 
 fetch('http://localhost:3000/news.json')
     .then(serverResponse => serverResponse.json())
@@ -11,19 +13,66 @@ fetch('http://localhost:3000/news.json')
     });
 
 
-// 1.domácí úkol
 const section = document.querySelector('section.main-content');
-const currentDate = new Date();
-const maxDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
 
-/*
-for(let i = 1; i <= 31; i++){
-    const day = document.createElement('div');
-    day.innerText = i;
-    day.classList.add('main-content__day');
-    section.appendChild(day);
+//6.úkol selecty
+
+const sectionSelect = document.querySelector('.selects');
+const selectYear = new Select('year');
+sectionSelect.appendChild(selectYear);
+const selectMonth = new Select('month');
+sectionSelect.appendChild(selectMonth);
+ 
+
+function createYears(){
+    const select = document.querySelector('#year');
+    for(let i = new Date().getFullYear() - 80; i <= new Date().getFullYear() + 20; i++){
+        const option = document.createElement('option');
+        option.setAttribute('value', i);
+        option.innerText = i;
+        select.appendChild(option);
+    }
 }
-*/
+
+createYears(); 
+
+function createMonths(){
+    const select = document.querySelector('#month');
+    const months = ['leden', 'únor', 'březen', 'duben', 'květen', 'červen', 'červenec', 'srpen', 'září', 
+                    'říjen', 'listopad', 'prosinec'];
+    for(let i = 0; i < months.length; i++){
+        const option = document.createElement('option');
+        option.setAttribute('value', i);
+        option.innerText = months[i];
+        select.appendChild(option);
+    }
+}
+
+createMonths();
+
+
+let currentYear; 
+
+ document.querySelector('#year').addEventListener('change', (event)  => {
+    currentYear = parseInt(event.target.value);
+  });
+
+ console.log(currentYear); 
+
+let currentMonth;
+
+  document.querySelector('#month').addEventListener('change', (event)  => {
+    currentMonth = parseInt(event.target.value);  
+  });
+
+  console.log(currentMonth); 
+ 
+
+//vykreslí dny
+
+let currentDate = new Date();
+console.log(currentDate);
+const maxDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
 
 for(let i = 1; i <= maxDate; i++){
     const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
@@ -31,57 +80,8 @@ for(let i = 1; i <= maxDate; i++){
     section.appendChild(day);
 }
 
-/*
-const buttonOpenModal = document.getElementById('open-modal');
-const modalContainer = document.querySelector('.modal-container');
 
-buttonOpenModal.addEventListener('click', () => {
-   modalContainer.hidden = false;
-}); */
-
-/*
-const buttonOpenModal = document.querySelector('#open-modal');
-buttonOpenModal.addEventListener('click', () => {
-        showDayModal().then((result) => console.log(result));
-    }); */
-/*
-function showDayModal(){
-
-    const promiseResult = new Promise((resolve, reject) => {
-        const template = document.querySelector('#modal-template');
-        const modal = template.content.cloneNode(true);
-        
-        const closeAction = () => {
-            const child = document.querySelector('.modal-container');
-            document.body.removeChild(child);
-            resolve(null);
-        };
-
-        const closeButton = modal.querySelector('#close-modal');
-        closeButton.addEventListener('click', closeAction);
-
-        modal.querySelector('#cancel-button').addEventListener('click', closeAction);
-
-        modal.querySelector('#save-button').addEventListener('click', () => {
-            const formRef = document.querySelector('#modal-form');
-            const formData = new FormData(formRef);
-            const isHoliday = formData.get('isHoliday') === 'on';
-            resolve({isHoliday: isHoliday});
-        });
-        document.body.appendChild(modal);
-    }); 
-    
-    return promiseResult;
-
-    }
-
-*/
-/*
-function hideTheThing(event){
-    event.target.style.display = 'none';
-}
-
-document.querySelectorAll('app-day').forEach(day => day.addEventListener('click', hideTheThing)); */
+//funkcionalita modalu
 
 function showDayModal() {
     const template = document.querySelector('#modal-template');
@@ -96,72 +96,106 @@ function showDayModal() {
     modal.querySelector('#save-button').addEventListener('click', () => {
         const formRef = document.querySelector('#modal-form');
         const formData = new FormData(formRef);
-        const isHoliday = formData.get('isHolidayControl') === 'on';
+     // const isHoliday = formData.get('isHolidayControl') === 'on';
+        const data = formData.entries(); 
+
+        const object = {};
+        for(let formValue of data){
+           const key = formValue[0];
+           const value = formValue[1];     
+           object[key] = value;
+        }
+    
     });
 
-    // ziskat referenci na input limitAttendeesByGender
-    // udalost change napr: check.addEventListener('change', (event) => { })
-    // event.target.checked
-    // ziskat referenci na div#genderSelectRow
-    // if else ->
-    // div.classList
-    // classList.add('abc')
-    // classList.remove('abc')
 
     const limit = modal.querySelector('#limitAttendeesByGender');
     const gender = modal.querySelector('#genderSelectRow');
+
     limit.addEventListener('change', (event) => {
         if(event.target.checked){
             gender.classList.remove('hidden');
+            const optionsWithClass = document.querySelectorAll('.names');
+            optionsWithClass.forEach((elem) => elem.remove());
+            const male = document.querySelector('#male');
+            male.addEventListener('change', (event) => {
+                if(event.target.checked){
+                        contactsCache.filter(it => {
+                           return it.gender == 'Male'
+                           }).forEach(it => {
+                            const f = document.querySelectorAll('.females');
+                            f.forEach((elem) => elem.remove());   
+                            const maleOption = document.createElement('option');
+                            maleOption.classList.add('males');
+                            maleOption.setAttribute('value', it.id);
+                            maleOption.innerText = `${it.first_name} ${it.last_name}`;
+                            const at = document.querySelector('#eventAttendees');
+                            at.appendChild(maleOption);
+                        });
+                }
+                    
+            });
+            const female = document.querySelector('#female');
+            female.addEventListener('change', (event) => {
+                if(event.target.checked){
+                    contactsCache.filter(it => {
+                        return it.gender == 'Female'
+                    }).forEach(it => {
+                        const m = document.querySelectorAll('.males');
+                        m.forEach((elem) => elem.remove());   
+                        const femaleOption = document.createElement('option');
+                        femaleOption.classList.add('females');
+                        femaleOption.setAttribute('value', it.id);
+                        femaleOption.innerText = `${it.first_name} ${it.last_name}`;
+                        const at = document.querySelector('#eventAttendees');
+                            at.appendChild(femaleOption);
+                    });
+                   
+                }     
+            });
+       
         }
         else{
             gender.classList.add('hidden');
         }
-    })
-    
-    // pri vytvaření options pridat tridu
-    // ziskat referenci na všechny elementy s naší novou třídou
-    // querySelectorAll
-    // select.removeChild(it)
-    // document.removeChild(it)
-    // filter
-
-    fetch('http://localhost:3000/contacts')
-    .then(serverResponse => serverResponse.text())
-    .then(responseText => {
-      const data = JSON.parse(responseText);
-
-      // id
-      // first_name
-      // last_name
-      // gender
-      // ziskat referenci na select s id eventAttendees
-      // vytvorit novy element option
-      // <option value="id"></option>
-      // option innerText first_name + last_name
-      // option.setAttribute('value', ...);
-      // option.innerText = firstname + lastnme;
-      // vlozit option do selectu
-      const attendees = document.querySelector('#eventAttendees');
-      data.forEach(it => {
+    });
+         
+      fetch('http://localhost:3000/contacts')
+      .then(serverResponse => serverResponse.text())
+      .then(responseText => {
+          contactsCache =  JSON.parse(responseText);
+          contactsCache.forEach(it => {
+        const attendees = document.querySelector('#eventAttendees');
         const option = document.createElement('option');
-        option.classList.add('namesByGender');
-        const optionsWithClass = document.querySelectorAll('.namesByGender');
-      /*  const optionByGender = optionsWithClass.filter(it => {
-            const byGender = 
-        }); */
+        option.classList.add('names');
         option.setAttribute('value', it.id);
         option.innerText = `${it.first_name} ${it.last_name}`;
         attendees.appendChild(option);
       });
-   });
+    });
 
 
     document.body.appendChild(modal);
 }
 
+function createOptions(contactsCache){
+
+    const attendees = document.querySelector('#eventAttendees');
+
+    contactsCache.forEach(it => {
+       
+        const option = document.createElement('option');
+        option.classList.add('names');
+        option.setAttribute('value', it.id);
+        option.innerText = `${it.first_name} ${it.last_name}`;
+        attendees.appendChild(option);
+      });
+}
+
 window.showModal = showDayModal;
 
+
+//funkcionalita k ukazování času
 let password = '';
 
 document.addEventListener('keydown', (keyboardEvent) => {   
@@ -169,8 +203,8 @@ document.addEventListener('keydown', (keyboardEvent) => {
         if(password.indexOf('time') != -1){
             password = '';
             const appTime = document.querySelector('app-time');
-                                     appTime.showTime();                        
-        }    
+            appTime.showTime();                        
+        }   
 });
 
     
