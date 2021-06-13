@@ -30,6 +30,9 @@ function createYears(){
         const option = document.createElement('option');
         option.setAttribute('value', i);
         option.innerText = i;
+        if(i == new Date().getFullYear()){
+            option.setAttribute('selected', 'selected');
+        }
         select.appendChild(option);
     }
 }
@@ -44,6 +47,9 @@ function createMonths(){
         const option = document.createElement('option');
         option.setAttribute('value', i);
         option.innerText = months[i];
+        if(i == new Date().getMonth()){
+            option.setAttribute('selected', 'selected');
+        }
         select.appendChild(option);
     }
 }
@@ -70,22 +76,19 @@ drawCalendar();
  
 //vykreslí dny
 
-
 function drawCalendar(){
 
-let currentDate = new Date(currentYear, currentMonth);
-console.log(currentDate);
-const maxDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+    let currentDate = new Date(currentYear, currentMonth);
+    const maxDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
 
-for(let i = 1; i <= maxDate; i++){
-    const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
-    const day = new Day(dayDate);
-    if(day.innerText == new Date().getDate()){
-      day.classList.add('today');
+    for(let i = 1; i <= maxDate; i++){
+        const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
+        const day = new Day(dayDate);
+        if(day.innerText == new Date().getDate()){
+        day.classList.add('today');
+        }
+        section.appendChild(day);
     }
-    section.appendChild(day);
-}
-
 }
 
 //funkcionalita modalu
