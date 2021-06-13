@@ -51,35 +51,40 @@ function createMonths(){
 createMonths();
 
 
-let currentYear; 
+let currentYear = new Date().getFullYear(); 
+let currentMonth = new Date().getMonth();
+drawCalendar();
 
  document.querySelector('#year').addEventListener('change', (event)  => {
     currentYear = parseInt(event.target.value);
+    section.innerHTML = '';
+    drawCalendar();
   });
-
- console.log(currentYear); 
-
-let currentMonth;
 
   document.querySelector('#month').addEventListener('change', (event)  => {
     currentMonth = parseInt(event.target.value);  
+    section.innerHTML = '';
+    drawCalendar();
   });
 
-  console.log(currentMonth); 
  
-
 //vykreslí dny
 
-let currentDate = new Date();
+
+function drawCalendar(){
+
+let currentDate = new Date(currentYear, currentMonth);
 console.log(currentDate);
 const maxDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
 
 for(let i = 1; i <= maxDate; i++){
     const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
     const day = new Day(dayDate);
+    //console.log(day.getDate());
     section.appendChild(day);
 }
 
+}
 
 //funkcionalita modalu
 
